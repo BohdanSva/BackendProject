@@ -1,0 +1,24 @@
+.blogPost .article {
+margin-left: 15vw;
+}
+
+.blogPost h1 {
+  color: rgb(3, 43, 94);
+  margin-top: 3vh;
+  margin-bottom: 2vh;
+}
+
+.blogPost h6 {
+  color: rgb(3, 43, 94);
+  margin-top: 7vh;
+  margin-bottom: 2vh;
+}
+
+.blogPost .articleDate {
+  margin-bottom: 2vh;
+}
+
+.blogPost .container {
+  margin-bottom: 5vh;
+}
+

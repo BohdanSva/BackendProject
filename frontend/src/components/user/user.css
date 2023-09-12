@@ -1,0 +1,118 @@
+/* Mobile first */
+@media (max-width: 767px) {	
+    p {
+        color: black;
+    }
+
+    .user #measurement_system {
+        margin-top: 0vh;
+        width: 15em;
+    }
+
+    .user h1 {
+        margin-top: 0vh;
+        margin-bottom: 0vh;
+    }
+
+    .user h2 {
+        margin-top: 0vh;
+        margin-bottom: 0vh;
+    }
+}
+
+/* Tablet */
+@media (max-width: 1023px) {	
+    .user #measurement_system {
+        width: 7em;
+    }
+}
+
+/* Desktop */
+.user h1 {
+    color: rgb(3, 43, 94);
+    margin-top: 5vh;
+    margin-bottom: 0.5vh;
+}
+
+.user h2 {
+    color: rgb(3, 43, 94);
+    margin-top: 5vh;
+    margin-bottom: 0.5vh;
+}
+
+.user h3 {
+    color: rgb(3, 43, 94);
+}
+
+.user h4 {
+    color: rgb(3, 43, 94);
+}
+
+.user h5 {
+    color: rgb(3, 43, 94);
+}
+
+.user .container {
+    margin-bottom: 5vh;
+}
+
+.user .disabledStyle {
+    border: none;
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    padding: none;
+    width: auto;
+    pointer-events: none;
+    background-position: -10000px;
+}
+
+.user .uneditableStyle {
+    display: inline;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    padding: none;
+    width: auto;
+    pointer-events: none;
+    resize: none;
+    background-color: transparent;
+}
+
+.user #measurement_system {
+    margin-top: 5em;
+}
+
+/* .user #file-input {
+    color: transparent; // Hides "No file chosen" text in file input box
+} */
+
+/* Pagination styling */
+.pagination {
+    display: flex;
+    list-style: none;
+    margin-top: 20px;
+    padding: 0;
+   }
+.pagination a {
+    cursor: default;
+    padding: 4px;
+    border-radius: 5px;
+    border: 1px solid rgb(3, 43, 94);
+    color: rgb(3, 43, 94);
+    margin-left: 10px;
+}
+.pagination li:not(.disabled) a:hover {
+    background-color: bisque;
+    cursor: pointer;
+}
+.pagination li.active a {
+    color: #fff;
+    background: rgb(3, 43, 94);
+}
+.pagination li.disabled a {
+    pointer-events: none;
+    color: rgb(198, 197, 202);
+    border: 1px solid rgb(198, 197, 202);
+}
+

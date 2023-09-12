@@ -1,0 +1,177 @@
+.blog p {
+    text-decoration: none;
+}
+
+.blog h1 {
+    color: rgb(3, 43, 94);
+    margin-top: 7vh;
+    margin-bottom: 2vh;
+}
+
+.blog h2 {
+    color: rgb(3, 43, 94);
+    margin-top: 7vh;
+    margin-bottom: 2vh;
+}
+
+.blog .container {
+    margin-bottom: 5vh;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;    
+  }
+
+// Parallax card effect
+.parallax .card-body { // in addition to Bootstrap styling of .card-body class, but only on the News page so only .parallax descendants
+	height: 11em;
+	overflow: hidden;
+}
+.parallax .card-text { // in addition to Bootstrap styling of .card-body class, but only on the News page so only .parallax descendants
+	text-align: justify;
+}
+
+.parallax {
+	display: block;
+	height: auto;
+	position: relative;
+	width: auto;
+
+	&-content {
+		box-shadow: 0 32px 60px rgba(69, 77, 93, .3);
+		height: auto;
+		transform: perspective(1600px);
+		transform-style: preserve-3d;
+		transition: all .4s ease;
+		width: 100%;
+
+		&:before {
+			content: "";
+			display: block;
+			height: 100%;
+			left: 0;
+			position: absolute;
+			top: 0;
+			width: 100%;
+		}
+	}
+
+	&-front { // Content /text inside the card
+		// align-items: center;
+		color: #fff;
+		display: flex;
+		height: 100%;
+		justify-content: center;
+		left: 0;
+		position: absolute;
+		text-align: center;
+		// text-shadow: 0 0 3rem rgba(69, 77, 93, .95);
+		top: 0;
+		transform: translateZ(16px) scale(.9);
+		transition: all .4s ease;
+		width: 100%;
+		z-index: 1;
+	}
+
+	&-top-left {
+		height: 50%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 50%;
+		z-index: 300;
+		cursor: pointer;
+
+		&:hover ~ .parallax-content {
+			transform: perspective(1600px) rotateX(-5deg) rotateY(5deg);
+			&:before {
+				background: linear-gradient(
+					135deg,
+					rgba(255, 255, 255, .25) 0%,
+					rgba(255, 255, 255, 0) 50%
+				);
+			}
+
+			.parallax-front {
+				transform: translate3d(-.10px, -.10px, 16px) scale(.9);
+			}
+		}
+	}
+
+	&-top-right {
+		height: 50%;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 50%;
+		z-index: 300;
+		cursor: pointer;
+
+		&:hover ~ .parallax-content {
+			transform: perspective(1600px) rotateX(-5deg) rotateY(-5deg);
+			&:before {
+				background: linear-gradient(
+					-135deg,
+					rgba(255, 255, 255, .25) 0%,
+					rgba(255, 255, 255, 0) 50%
+				);
+			}
+
+			.parallax-front {
+				transform: translate3d(.10px, -.10px, 16px) scale(.9);
+			}
+		}
+	}
+
+	&-bottom-left {
+		bottom: 0;
+		height: 50%;
+		left: 0;
+		position: absolute;
+		width: 50%;
+		z-index: 300;
+		cursor: pointer;
+
+		&:hover ~ .parallax-content {
+			transform: perspective(1600px) rotateX(5deg) rotateY(5deg);
+
+			&:before {
+				background: linear-gradient(
+					45deg,
+					rgba(255, 255, 255, .25) 0%,
+					rgba(255, 255, 255, 0) 50%
+				);
+			}
+
+			.parallax-front {
+				transform: translate3d(-.10px, .10px, 16px) scale(.9);
+			}
+		}
+	}
+
+	&-bottom-right {
+		bottom: 0;
+		height: 50%;
+		position: absolute;
+		right: 0;
+		width: 50%;
+		z-index: 300;
+		cursor: pointer;
+
+		&:hover ~ .parallax-content {
+			transform: perspective(1600px) rotateX(5deg) rotateY(-5deg);
+
+			&:before {
+				background: linear-gradient(
+					-45deg,
+					rgba(255, 255, 255, .25) 0%,
+					rgba(255, 255, 255, 0) 50%
+				);
+			}
+			.parallax-front {
+				transform: translate3d(.10px, .10px, 16px) scale(.9);
+			}
+		}
+	}
+}

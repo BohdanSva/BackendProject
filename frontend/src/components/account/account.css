@@ -1,0 +1,41 @@
+/* Mobile first */
+@media (max-width: 767px) {	
+    .account .right_box {
+        display: none;
+    }
+    
+    .account .left_box {
+        background: url("../../assets/images/login_background.svg");
+        height: 100vh;
+    }
+
+    p {
+        color: white;
+    }
+}
+
+.account h1 {
+    color: rgb(3, 43, 94);
+    margin-top: 10vh;
+    margin-bottom: 15vh;
+}
+
+.account h2 {
+    color: rgb(3, 43, 94);
+}
+
+.account .registered h2 {
+    margin-top: 35vh;
+}
+
+.account .left_box {
+    background-color: rgb(255, 255, 255);
+}
+
+.account .right_box {
+    background: url("../../assets/images/login_background.svg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+}
+

@@ -1,0 +1,16 @@
+.admin h1 {
+    color: rgb(3, 43, 94);
+    margin-top: 7vh;
+    margin-bottom: 2vh;
+}
+
+.admin h2 {
+    color: rgb(3, 43, 94);
+    margin-top: 7vh;
+    margin-bottom: 2vh;
+}
+
+.admin .container {
+    margin-bottom: 5vh;
+}
+
