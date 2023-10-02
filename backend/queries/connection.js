@@ -8,9 +8,10 @@ const connection = mysql.createConnection({
   database: process.env.DB_DATABASE,
 });
 
-function asyncMySQL(query) {
+// The "driver" / "SQL connector" takes prepared statements as params
+function asyncMySQL(query, params) {
   return new Promise((resolve, reject) => {
-    connection.query(query, (error, results) => {
+    connection.query(query, params, (error, results) => {
       if (error) {
         reject(error);
       }

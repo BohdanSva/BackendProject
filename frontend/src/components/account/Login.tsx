@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { setEmail, selectEmail, setPassword, selectPassword} from "../../features/account/accountSlice";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './account.css';
 
 const Login = () => {
@@ -83,6 +85,18 @@ const Login = () => {
             }
         } else {
           console.log("Incorrect login");
+
+          // Toast message if email/password combination is wrong
+          toast.error('☹️ Incorrect password', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
         }
         } catch (error) {console.log(error);}
       }
@@ -141,6 +155,20 @@ const Login = () => {
             </div>
 
             <p style={{marginTop: "20px"}}>By logging in, you accept the Terms of Use</p>
+
+            <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            />
+
           </div>
 
         </div>

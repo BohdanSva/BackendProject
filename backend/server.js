@@ -8,6 +8,7 @@ const adminAPIs = require("./endpoints/admins")
 const userAPIs = require("./endpoints/user")
 const blogAPIs = require('./endpoints/blog');
 const authenticateToken = require("./middleware/authentication");
+const authAdmin = require("./middleware/authAdmin");
 const limiter = require("./middleware/limiter");
 const helmet = require("helmet");
 const path = require("path");
@@ -31,7 +32,7 @@ app.use(cors(corsOptions));
 
 // API Endpoints
 app.use("/account", accountAPIs); 
-app.use("/admin", authenticateToken, adminAPIs);
+app.use("/admin", authAdmin, adminAPIs);
 app.use("/user", authenticateToken, userAPIs);
 app.use("/blog", blogAPIs); 
 

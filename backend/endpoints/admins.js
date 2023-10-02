@@ -54,7 +54,7 @@ router.delete("/blog/:id", async (req, res) => { // http://localhost:3001/admin/
     return;
   }
 
-  const result = await asyncMySQL(deleteBlogPost(id));
+  const result = await asyncMySQL(deleteBlogPost(), [id]);
   if (result.affectedRows > 0) {
     res.send({ status: 1 });
   } else {
@@ -81,9 +81,7 @@ router.post("/blog", async (req, res) => { // http://localhost:3001/admin/blog
       return;
     }
     try {
-      await asyncMySQL(
-        addBlogPost(articleTopic, headline, textBlock)
-      );
+      await asyncMySQL(addBlogPost(),[articleTopic, headline, textBlock]);
       res.send({ status: 1 });
     } catch (error) {
       console.log(error);
@@ -102,7 +100,7 @@ const { articleTopic, headline, articleDate, textBlock } = req.body;
     }
 
     try {
-        await asyncMySQL(updateBlogPost(articleTopic, headline, articleDate, textBlock, id))
+        await asyncMySQL(updateBlogPost(), [articleTopic, headline, articleDate, textBlock, id])
         res.send({ status: 1 }); // Should only run if the query works
       } catch (error) {
         console.log(error);

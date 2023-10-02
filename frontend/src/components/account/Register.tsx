@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import 
 { setUserType, selectUserType, setUserName, selectUserName, setUserSurname, selectUserSurname, setEmail, selectEmail, 
-  setPassword, selectPassword} 
+  setPassword, selectPassword, setData} 
 from "../../features/account/accountSlice";
 import './account.css';
 import { useState } from 'react';
 
 const Register = () => {
-
     // Hooks definitions
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -115,6 +114,9 @@ const Register = () => {
             },
             });
             console.log(data);
+            if (data.status === 0) {
+              dispatch(setData(data)); // Save to state to show the error message in the "Registration successful/unsuccessful" page
+            }
           } catch (error) {console.log(error);}
     }
 

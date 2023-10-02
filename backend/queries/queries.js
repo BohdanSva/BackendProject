@@ -1,149 +1,144 @@
 module.exports = {
-    registerUser: (name, surname, email, hashedPassword) => {
+    identifyUserByEmail: () => {
+      return `SELECT id FROM users
+                WHERE email = ? ;`;
+    },
+    registerUser: () => {
       return `INSERT INTO users
                 (name, surname, email, password, user_type) 
-                  VALUES ('${name}', '${surname}', '${email}', '${hashedPassword}', 'user');`;
+                  VALUES (?, ?, ?, ?, 'user');`;
     },
-    loginUser: (email, hashedPassword) => {
+    loginUser: () => {
       return `SELECT id, user_type FROM users
-                WHERE email = "${email}"
-                  AND password = "${hashedPassword}";`;
+                WHERE email = ?
+                  AND password = ? ;`;
     },
-    addToken: (userId, token) => {
+    addToken: () => {
       return `INSERT INTO tokens
                 (user_id, token)
                   VALUES
-                    ("${userId}", "${token}")`;
+                    (?, ?)`;
     },
-    identifyUserByToken: (token) => {
+    identifyUserByToken: () => {
       return `SELECT user_id FROM tokens
-                WHERE token = "${token}";`;
+                WHERE token = ? ;`;
+    },
+    deleteToken: () => {
+      return `DELETE FROM tokens
+                WHERE token = ? ;`;
     },
 
-    getUserProperties: (userId) => {
+    getUserProperties: () => {
       return `SELECT id, created, name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, 
       development, gdv, capex, units, siteArea, areaGross, areaNet, futureAreaGross, futureAreaNet, passingRent, opex, passingNoi, 
       futureRent, futureOpex, futureNoi, occupancy, leaseBreak, leaseExpiry, assetClass, futureAssetClass, feeStructure, brokerFee
         FROM property
-          WHERE userId = ${userId};`;
+          WHERE userId = ? ;`;
     },
-    getPropertyById: (id, userId) => {
+    getPropertyById: () => {
       return `SELECT id, created, name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, 
       development, gdv, capex, units, siteArea, areaGross, areaNet, futureAreaGross, futureAreaNet, passingRent, opex, passingNoi, 
       futureRent, futureOpex, futureNoi, occupancy, leaseBreak, leaseExpiry, assetClass, futureAssetClass, feeStructure, brokerFee,
       image
         FROM property
-          WHERE id = ${id}
-            AND userId = ${userId};`;
+          WHERE id = ?
+            AND userId = ? ;`;
     },
-    addProperty: (userId, name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, development,
-      gdv, capex, units, siteArea, areaGross, areaNet, futureAreaGross, futureAreaNet, passingRent, opex, passingNoi, futureRent,
-      futureOpex, futureNoi, occupancy, leaseBreak, leaseExpiry, assetClass, futureAssetClass, feeStructure, brokerFee) => {
+    addProperty: () => {
       return `INSERT INTO property
                 (userId, name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, development, gdv,
                 capex, units, siteArea, areaGross, areaNet, futureAreaGross, futureAreaNet, passingRent, opex, passingNoi, 
                 futureRent, futureOpex, futureNoi, occupancy, leaseBreak, leaseExpiry, assetClass, futureAssetClass, feeStructure, 
                 brokerFee)
                   VALUES
-                    ("${userId}", "${name}", "${street}", "${city}", "${postcode}", "${price}", "${ccy}", "${tenure}", "${groundRent}",
-                    "${leaseholdTerm}", "${dealType}", "${development}", "${gdv}", "${capex}", "${units}", "${siteArea}", "${areaGross}",
-                    "${areaNet}", "${futureAreaGross}", "${futureAreaNet}", "${passingRent}", "${opex}", "${passingNoi}", "${futureRent}", 
-                    "${futureOpex}", "${futureNoi}", "${occupancy}", "${leaseBreak}", "${leaseExpiry}", "${assetClass}", "${futureAssetClass}", 
-                    "${feeStructure}", "${brokerFee}")`;
+                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                    ?);`;
     },
-    updateProperty: (name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, development,
-      gdv, capex, units, siteArea, areaGross, areaNet, futureAreaGross, futureAreaNet, passingRent, opex, passingNoi, futureRent,
-      futureOpex, futureNoi, occupancy, leaseBreak, leaseExpiry, assetClass, futureAssetClass, feeStructure, brokerFee, id, userId
-      ) => {
+    updateProperty: () => {
       return `UPDATE property 
-                SET name = "${name}", street="${street}", city = "${city}", postcode = "${postcode}", price = "${price}", 
-                ccy = "${ccy}", tenure = "${tenure}", groundRent = "${groundRent}", leaseholdTerm = "${leaseholdTerm}", 
-                dealType = "${dealType}", development = "${development}", gdv = "${gdv}", capex = "${capex}", units = "${units}",
-                siteArea = "${siteArea}", areaGross = "${areaGross}", areaNet = "${areaNet}", futureAreaGross = "${futureAreaGross}",
-                futureAreaNet = "${futureAreaNet}", passingRent = "${passingRent}", opex = "${opex}", passingNoi = "${passingNoi}", 
-                futureRent = "${futureRent}", futureOpex = "${futureOpex}", futureNoi = "${futureNoi}", occupancy = "${occupancy}", 
-                leaseBreak = "${leaseBreak}", leaseExpiry = "${leaseExpiry}", assetClass = "${assetClass}", 
-                futureAssetClass = "${futureAssetClass}", feeStructure = "${feeStructure}", brokerFee = "${brokerFee}"
-                  WHERE id = "${id}" AND userId = "${userId}";`;
+                SET name = ?, street = ?, city = ?, postcode = ?, price = ?, 
+                ccy = ?, tenure = ?, groundRent = ?, leaseholdTerm = ?, 
+                dealType = ?, development = ?, gdv = ?, capex = ?, units = ?,
+                siteArea = ?, areaGross = ?, areaNet = ?, futureAreaGross = ?,
+                futureAreaNet = ?, passingRent = ?, opex = ?, passingNoi = ?, 
+                futureRent = ?, futureOpex = ?, futureNoi = ?, occupancy = ?, 
+                leaseBreak = ?, leaseExpiry = ?, assetClass = ?, 
+                futureAssetClass = ?, feeStructure = ?, brokerFee = ?
+                  WHERE id = ? AND userId = ?;`;
     },  
-    deleteProperty: (id, userId) => {
+    deleteProperty: () => {
       return `DELETE FROM property
-                WHERE id = ${id} AND userId = ${userId};`;
+                WHERE id = ? AND userId = ? ;`;
     },
-    addImageProperty: (image, id, userId) => {
+    addImageProperty: () => {
       return `UPDATE property
-                SET image = "${image}"
-                  WHERE id = ${id} AND userId = ${userId};`;
+                SET image = ?
+                  WHERE id = ? AND userId = ? ;`;
     },
 
-    getUserContacts: (userId) => {
+    getUserContacts: () => {
       return `SELECT id, created, name, surname, company, email, phone, contactDate, job, role, city
         FROM contacts
-          WHERE userId = ${userId};`;
+          WHERE userId = ? ;`;
     },
-    getContactById: (id, userId) => {
+    getContactById: () => {
       return `SELECT id, created, name, surname, company, email, phone, contactDate, job, role, city 
                 FROM contacts
-                    WHERE id = ${id}
-                      AND userId = ${userId}`;
+                    WHERE id = ?
+                      AND userId = ? `;
     },
-    addContact: (userId, name, surname, company, email, phone, contactDate, job, role, city) => {
+    addContact: () => {
       return `INSERT INTO contacts
                 (userId, name, surname, company, email, phone, contactDate, job, role, city)
                   VALUES
-                    ("${userId}", "${name}", "${surname}", "${company}", "${email}", "${phone}", "${contactDate}", "${job}", 
-                    "${role}", "${city}");`;
+                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     },
-    updateContact: (name, surname, company, email, phone, contactDate, job, role, city, id, userId) => {
+    updateContact: () => {
       return `UPDATE contacts
-                SET name = "${name}", surname = "${surname}", company = "${company}", email = "${email}", phone = "${phone}", 
-                contactDate = "${contactDate}", job = "${job}", role = "${role}", city = "${city}"
-                  WHERE id = "${id}" AND userId = "${userId}";`;
+                SET name = ?, surname = ?, company = ?, email = ?, phone = ?, 
+                contactDate = ?, job = ?, role = ?, city = ?
+                  WHERE id = ? AND userId = ? ;`;
     },  
-    deleteContact: (id, userId) => {
+    deleteContact: () => {
       return `DELETE FROM contacts
-                WHERE id = ${id} AND userId = ${userId};`;
+                WHERE id = ? AND userId = ? ;`;
     },
 
-    getUserInvestors: (userId) => {
+    getUserInvestors: () => {
       return `SELECT id, created, investorName, strategyName, assetClass, development, futureAssetClass, targetDescription, targetGeography, 
               minSize, maxSize, ccy, minWalb, maxWalb, minYield, contactId
                 FROM investors
-                  WHERE userId = ${userId};`;
+                  WHERE userId = ? ;`;
     },
-    getInvestorById: (id, userId) => {
+    getInvestorById: () => {
       return `SELECT i.id, i.created, i.investorName, i.strategyName, i.assetClass, i.development, i.futureAssetClass, 
               i.targetDescription, i.targetGeography, i.minSize, i.maxSize, i.ccy, i.minWalb, i.maxWalb, i.minYield, i.contactId,
               c.name, c.surname, c.company, c.email, c.phone, c.contactDate, c.job, c.role, c.city
                 FROM investors AS i, contacts AS c
-                    WHERE i.id = ${id}
-                      AND i.userId = ${userId}
+                    WHERE i.id = ?
+                      AND i.userId = ?
                         AND c.id = i.contactId;`;
     },
-    addInvestor: (userId, investorName, strategyName, assetClass, development, futureAssetClass, targetDescription, targetGeography, 
-      minSize, maxSize, ccy, minWalb, maxWalb, minYield, contactId
-      ) => {
+    addInvestor: () => {
       return `INSERT INTO investors
                 (userId, investorName, strategyName, assetClass, development, futureAssetClass, targetDescription, targetGeography, 
                   minSize, maxSize, ccy, minWalb, maxWalb, minYield, contactId)
                   VALUES
-                    ("${userId}", "${investorName}", "${strategyName}", "${assetClass}", "${development}", "${futureAssetClass}",
-                    "${targetDescription}", "${targetGeography}", "${minSize}", "${maxSize}", "${ccy}", "${minWalb}", "${maxWalb}",
-                    "${minYield}", "${contactId}");`;
+                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     },
-    updateInvestor: (investorName, strategyName, assetClass, development, futureAssetClass, targetDescription, targetGeography, 
-      minSize, maxSize, ccy, minWalb, maxWalb, minYield, contactId, id, userId
-      ) => {
+    updateInvestor: () => {
       return `UPDATE investors
-                SET investorName = "${investorName}", strategyName="${strategyName}", assetClass = "${assetClass}",
-                development = "${development}", futureAssetClass = "${futureAssetClass}", targetDescription = "${targetDescription}",
-                targetGeography = "${targetGeography}", minSize = "${minSize}", maxSize = "${maxSize}", ccy = "${ccy}",
-                minWalb = "${minWalb}", maxWalb = "${maxWalb}", minYield = "${minYield}", contactId = "${contactId}"
-                  WHERE id = "${id}" AND userId = "${userId}";`;
+                SET investorName = ?, strategyName=?, assetClass = ?,
+                development = ?, futureAssetClass = ?, targetDescription = ?,
+                targetGeography = ?, minSize = ?, maxSize = ?, ccy = ?,
+                minWalb = ?, maxWalb = ?, minYield = ?, contactId = ?
+                  WHERE id = ? AND userId = ? ;`;
     },  
-    deleteInvestor: (id, userId) => {
+    deleteInvestor: () => {
       return `DELETE FROM investors
-                WHERE id = ${id} AND userId = ${userId};`;
+                WHERE id = ? AND userId = ? ;`;
     },
 
     
@@ -152,20 +147,20 @@ module.exports = {
                 FROM blog
                   ORDER BY articleDate DESC;`; // Show the latest blog posts first
     },
-    deleteBlogPost: (id) => {
+    deleteBlogPost: () => {
       return `DELETE FROM blog
-                WHERE id = ${id};`;
+                WHERE id = ? ;`;
     },
-    addBlogPost: (articleTopic, headline, textBlock) => {
+    addBlogPost: () => {
       return `INSERT INTO blog
                           (articleTopic, headline, textBlock)
                             VALUES
-                              ("${articleTopic}", "${headline}", "${textBlock}");`;
+                              (?, ?, ?);`;
     },
-    updateBlogPost: (articleTopic, headline, articleDate, textBlock, id) => {
+    updateBlogPost: () => {
       return `UPDATE blog 
-                SET articleTopic = "${articleTopic}", headline="${headline}", articleDate="${articleDate}", textBlock="${textBlock}"
-                  WHERE id = "${id}";`;
+                SET articleTopic = ?, headline=?, articleDate=?, textBlock=?
+                  WHERE id = ? ;`;
     }, 
 
     getUserStats: () => {

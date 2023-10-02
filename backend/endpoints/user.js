@@ -9,10 +9,11 @@ const { addProperty, getUserProperties, getPropertyById, updateProperty, deleteP
 = require("../queries/queries");
 
 // Image storage setup
-const storage = multer.diskStorage({
+const storage = multer.diskStorage({  
   destination: (req, file, cb) => {
     cb(null, "../../backend-project/backend/public/images") // Directory where we want to store user-uploaded images
   }, // If no destination is given, the operating system's default directory for temporary files is used
+
   filename: (req, file, cb) => { // Naming convention for uploaded files, attaching the extension (bmp, jpg) of the original file
     cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname)) 
   }
@@ -48,9 +49,9 @@ router.post("/property/", async (req, res) => { // http://localhost:3001/user/pr
   
     try {
       await asyncMySQL(
-        addProperty(req.validatedUserId, name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, development,
+        addProperty(), [req.validatedUserId, name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, development,
           gdv, capex, units, siteArea, areaGross, areaNet, futureAreaGross, futureAreaNet, passingRent, opex, passingNoi, futureRent,
-          futureOpex, futureNoi, occupancy, leaseBreak, leaseExpiry, assetClass, futureAssetClass, feeStructure, brokerFee)
+          futureOpex, futureNoi, occupancy, leaseBreak, leaseExpiry, assetClass, futureAssetClass, feeStructure, brokerFee]
         // user ID = req.validatedUserId that you get from your authorisation middleware
       );
       res.send({ status: 1 });
@@ -62,7 +63,7 @@ router.post("/property/", async (req, res) => { // http://localhost:3001/user/pr
 
 // Get all user's properties
 router.get("/property", async (req, res) => { // http://localhost:3001/user/property
-  const results = await asyncMySQL(getUserProperties(req.validatedUserId));
+  const results = await asyncMySQL(getUserProperties(), [req.validatedUserId]);
   if (results.length > 0) {
     res.send({ status: 1, results });
     return;
@@ -80,7 +81,7 @@ router.get("/property/:id", async (req, res) => { // http://localhost:3001/user/
     return;
   }
 
-  const results = await asyncMySQL(getPropertyById(id, req.validatedUserId));
+  const results = await asyncMySQL(getPropertyById(), [id, req.validatedUserId]);
   if (results.length > 0) {
     res.send({ status: 1, results });
     return;
@@ -98,7 +99,7 @@ router.delete("/property/:id", async (req, res) => { // http://localhost:3001/us
     return;
   }
 
-  const result = await asyncMySQL(deleteProperty(id, req.validatedUserId));
+  const result = await asyncMySQL(deleteProperty(), [id, req.validatedUserId]);
 
   if (result.affectedRows > 0) {
     res.send({ status: 1 });
@@ -122,10 +123,10 @@ router.patch("/property/:id", async (req, res) => { // http://localhost:3001/use
   }
 
   try {
-    await asyncMySQL(updateProperty(name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, 
+    await asyncMySQL(updateProperty(), [name, street, city, postcode, price, ccy, tenure, groundRent, leaseholdTerm, dealType, 
       development, gdv, capex, units, siteArea, areaGross, areaNet, futureAreaGross, futureAreaNet, passingRent, opex, passingNoi,
       futureRent, futureOpex, futureNoi, occupancy, leaseBreak, leaseExpiry, assetClass, futureAssetClass, feeStructure,
-      brokerFee, id, req.validatedUserId))
+      brokerFee, id, req.validatedUserId])
     res.send({ status: 1 }); // Should only run if the query works
   } catch (error) {
     res.send({ status: 0, reason: error.sqlMessage });
@@ -135,6 +136,10 @@ router.patch("/property/:id", async (req, res) => { // http://localhost:3001/use
 // Save new image file to disk, delete old image, save image filename to locate it in "/public/images" folder, for a user's 
 // property by property ID
 router.post("/property/:id", upload.single('image'), async (req, res) => { // http://localhost:3001/user/property/id
+
+  // Defensive check - no file uploaded
+  if(!req.file) {return}
+
   const id = Number(req.params.id);
   const image = req.file.filename; // new image filename
   const oldImage = req.body.oldImage; // filename of the old image
@@ -146,7 +151,7 @@ router.post("/property/:id", upload.single('image'), async (req, res) => { // ht
   }
 
   try {
-    await asyncMySQL(addImageProperty(image, id, req.validatedUserId));
+    await asyncMySQL(addImageProperty(), [image, id, req.validatedUserId]);
     oldImage &&
     fs.unlink("../../backend-project/backend/public/images/" + oldImage, (error) => { // Delete old image
       if (error) {
@@ -162,7 +167,7 @@ router.post("/property/:id", upload.single('image'), async (req, res) => { // ht
 
 // Get all user's contacts
 router.get("/contacts", async (req, res) => { // http://localhost:3001/user/contacts
-  const results = await asyncMySQL(getUserContacts(req.validatedUserId));
+  const results = await asyncMySQL(getUserContacts(), [req.validatedUserId]);
   if (results.length > 0) {
     res.send({ status: 1, results });
     return;
@@ -180,7 +185,7 @@ router.get("/contacts/:id", async (req, res) => { // http://localhost:3001/user/
     return;
   }
 
-  const results = await asyncMySQL(getContactById(id, req.validatedUserId));
+  const results = await asyncMySQL(getContactById(), [id, req.validatedUserId]);
   if (results.length > 0) {
     res.send({ status: 1, results });
     return;
@@ -193,7 +198,7 @@ router.post("/contacts/", async (req, res) => { // http://localhost:3001/user/co
   const { name, surname, company, email, phone, contactDate, job, role, city } = req.body;
   try {
     await asyncMySQL(
-      addContact(req.validatedUserId, name, surname, company, email, phone, contactDate, job, role, city)
+      addContact(), [req.validatedUserId, name, surname, company, email, phone, contactDate, job, role, city]
       // user ID = req.validatedUserId that you get from your authorisation middleware
     );
     res.send({ status: 1 });
@@ -216,7 +221,7 @@ router.patch("/contacts/:id", async (req, res) => { // http://localhost:3001/use
   }
   
   try {
-    await asyncMySQL(updateContact(name, surname, company, email, phone, contactDate, job, role, city, id, req.validatedUserId))
+    await asyncMySQL(updateContact(), [name, surname, company, email, phone, contactDate, job, role, city, id, req.validatedUserId])
     res.send({ status: 1 }); // Should only run if the query works
   } catch (error) {
     res.send({ status: 0, reason: error.sqlMessage });
@@ -233,7 +238,7 @@ router.delete("/contacts/:id", async (req, res) => { // http://localhost:3001/us
     return;
   }
 
-  const result = await asyncMySQL(deleteContact(id, req.validatedUserId));
+  const result = await asyncMySQL(deleteContact(), [id, req.validatedUserId]);
 
   if (result.affectedRows > 0) {
     res.send({ status: 1 });
@@ -244,7 +249,7 @@ router.delete("/contacts/:id", async (req, res) => { // http://localhost:3001/us
 
 // Get all user's investors
 router.get("/investors", async (req, res) => { // http://localhost:3001/user/investors
-  const results = await asyncMySQL(getUserInvestors(req.validatedUserId));
+  const results = await asyncMySQL(getUserInvestors(), [req.validatedUserId]);
   if (results.length > 0) {
     res.send({ status: 1, results });
     return;
@@ -262,7 +267,7 @@ router.get("/investors/:id", async (req, res) => { // http://localhost:3001/user
     return;
   }
 
-  const results = await asyncMySQL(getInvestorById(id, req.validatedUserId));
+  const results = await asyncMySQL(getInvestorById(), [id, req.validatedUserId]);
   if (results.length > 0) {
     res.send({ status: 1, results });
     return;
@@ -278,8 +283,8 @@ router.post("/investors/", async (req, res) => { // http://localhost:3001/user/i
 
   try {
     await asyncMySQL(
-      addInvestor(req.validatedUserId, investorName, strategyName, assetClass, development, futureAssetClass, targetDescription, 
-        targetGeography, minSize, maxSize, ccy, minWalb, maxWalb, minYield, contactId)
+      addInvestor(), [req.validatedUserId, investorName, strategyName, assetClass, development, futureAssetClass, targetDescription, 
+        targetGeography, minSize, maxSize, ccy, minWalb, maxWalb, minYield, contactId]
       // user ID = req.validatedUserId that you get from your authorisation middleware
     );
     res.send({ status: 1 });
@@ -303,8 +308,8 @@ router.patch("/investors/:id", async (req, res) => { // http://localhost:3001/us
   }
   
   try {
-    await asyncMySQL(updateInvestor(investorName, strategyName, assetClass, development, futureAssetClass, targetDescription, 
-      targetGeography, minSize, maxSize, ccy, minWalb, maxWalb, minYield, contactId, id, req.validatedUserId))
+    await asyncMySQL(updateInvestor(), [investorName, strategyName, assetClass, development, futureAssetClass, targetDescription, 
+      targetGeography, minSize, maxSize, ccy, minWalb, maxWalb, minYield, contactId, id, req.validatedUserId])
     res.send({ status: 1 }); // Should only run if the query works
   } catch (error) {
     res.send({ status: 0, reason: error.sqlMessage });
@@ -321,7 +326,7 @@ router.delete("/investors/:id", async (req, res) => { // http://localhost:3001/u
     return;
   }
 
-  const result = await asyncMySQL(deleteInvestor(id, req.validatedUserId));
+  const result = await asyncMySQL(deleteInvestor(), [id, req.validatedUserId]);
 
   if (result.affectedRows > 0) {
     res.send({ status: 1 });

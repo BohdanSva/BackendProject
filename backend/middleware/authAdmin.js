@@ -1,8 +1,7 @@
 const asyncMySQL = require("../queries/connection");
 const { identifyUserByToken } = require("../queries/queries");
 
-const authenticateToken = async (req, res, next) => {
-  console.log("The server authentication script started.") 
+const authAdmin = async (req, res, next) => {
   const results = await asyncMySQL(identifyUserByToken(), [req.headers.token]);
 
   if (results.length === 1) {
@@ -13,4 +12,4 @@ const authenticateToken = async (req, res, next) => {
   res.send({ status: 0, reason: "Bad token" });
 };
 
-module.exports = authenticateToken;
+module.exports = authAdmin;

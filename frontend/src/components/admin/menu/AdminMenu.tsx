@@ -17,7 +17,7 @@ return (
             <div className="col left_box">
                 <h1>App Admin Portal</h1>
 
-                <div className="animationContent" style={{position: 'absolute', top: '20%', left: '18%'}}>
+                <div className="animationContent" style={{position: 'absolute', top: '28%', left: '18%'}}>
                 <div className="circle">
                     <div className="circle_title">
                     <h2>Users</h2>
@@ -38,7 +38,7 @@ return (
                 </div>
                 </div>
 
-                <div className="animationContent" style={{position: 'absolute', top: '40%', left: '7%'}}>
+                <div className="animationContent" style={{position: 'absolute', top: '50%', left: '7%'}}>
                 <div className="circle">
                     <div className="circle_title">
                     <h2>Blog</h2>
@@ -59,7 +59,7 @@ return (
                 </div>
                 </div>
 
-                <div className="animationContent" style={{position: 'absolute', top: '40%', left: '30%'}}>
+                <div className="animationContent" style={{position: 'absolute', top: '50%', left: '30%'}}>
                 <div className="circle">
                     <div className="circle_title">
                     <h2>Databases</h2>

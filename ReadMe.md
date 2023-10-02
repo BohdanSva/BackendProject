@@ -92,6 +92,7 @@ Included in the project folder are:
 - React Select
 - React Paginate
 - React Icons
+- React Toastify
 - SASS
 - XLSX
 

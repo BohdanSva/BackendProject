@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSignOutAlt } from "react-icons/fa";
+import axios from 'axios';
 import logoImage from '../../assets/images/navbar_logo.png';
 
 const UserNavbar = () => {
@@ -8,10 +9,31 @@ const UserNavbar = () => {
 
     // Functions
     const logOut = async () => {
-        localStorage.setItem("token","") // Delete the token from local storage
-        localStorage.setItem("type","") // Delete the user type from local storage
-        navigate('/');
+        const URL = `http://localhost:3001/account/login`;
+        try {
+          const {data} = await axios.request({
+            url: URL,
+            method: "delete",
+            data: {
+                "token": localStorage.getItem("token"),
+            },
+            });
+            console.log(data);
+          if (data.status === 1) {
+            console.log("Logout successful")
+            localStorage.setItem("token","") // Delete the token from local storage
+            localStorage.setItem("type","") // Delete the user type from local storage
+            navigate('/');
+          }
+        } 
+        catch (error) {console.log(error);}
     }
+
+    // const logOut = async () => {
+    //     localStorage.setItem("token","") // Delete the token from local storage
+    //     localStorage.setItem("type","") // Delete the user type from local storage
+    //     navigate('/');
+    // }
 
     return ( 
     <>
